@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Comparison Result{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <div class="glass-card p-4 mb-4">
+        <div class="row g-4 align-items-center">
+            <div class="col-lg-8">
+                <h1 class="section-title mb-2">Comparison result</h1>
+                <p class="section-subtitle mb-0">{{ doc1_name }} compared with {{ doc2_name }}</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <span class="risk-pill risk-{{ risk_color|default:'secondary' }}">{{ result.risk_level|default:'Low' }}</span>
+                <div class="hero-score mt-2">{{ result.overall_similarity|default:0 }}%</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-3"><div class="metric-card"><div class="metric-label">Document 1 sentences</div><div class="metric-value">{{ result.doc1_sentences|default:0 }}</div></div></div>
+        <div class="col-md-3"><div class="metric-card"><div class="metric-label">Document 2 sentences</div><div class="metric-value">{{ result.doc2_sentences|default:0 }}</div></div></div>
+        <div class="col-md-3"><div class="metric-card"><div class="metric-label">Matching pairs</div><div class="metric-value">{{ result.matching_pairs|default:0 }}</div></div></div>
+        <div class="col-md-3"><div class="metric-card"><div class="metric-label">Similarity</div><div class="metric-value">{{ result.overall_similarity|default:0 }}%</div></div></div>
+    </div>
+
+    <div class="glass-card overflow-hidden">
+        <div class="p-4 border-bottom border-soft"><h5 class="mb-0">Matched sentences</h5></div>
+        {% if result.matches %}
+        <div class="table-responsive">
+            <table class="table table-theme mb-0 align-middle">
+                <thead><tr><th>Document 1</th><th>Document 2</th><th>Similarity</th></tr></thead>
+                <tbody>
+                {% for match in result.matches %}
+                    <tr>
+                        <td>{{ match.doc1_sentence }}</td>
+                        <td>{{ match.doc2_sentence }}</td>
+                        <td>{{ match.similarity }}%</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="p-5 text-center text-muted-2">No strong matching pairs were found.</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

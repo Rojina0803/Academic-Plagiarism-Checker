@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}PlagCheck{% endblock %}
+
+{% block content %}
+<section class="hero-section py-4 py-lg-5">
+    <div class="container">
+        <div class="glass-panel hero-panel reveal-up">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-7">
+                    <div class="hero-badge">
+                        <i class="bi bi-stars me-2"></i>
+                        Advanced NLP • TF-IDF • Cosine Similarity
+                    </div>
+
+                    <h1 class="hero-title">
+                        Smarter plagiarism <span class="text-gradient">detection</span>
+                        for text and documents.
+                    </h1>
+
+                    <p class="hero-subtitle">
+                        Analyze pasted text or uploaded PDF, DOCX, and TXT files with sentence-level detection,
+                        source attribution, saved history, and a polished academic dashboard.
+                    </p>
+
+                    <div class="d-flex gap-3 flex-wrap mt-4">
+                        <a href="{% url 'upload' %}" class="btn btn-primary btn-lg hero-btn">
+                            <i class="bi bi-upload me-2"></i>Upload Document
+                        </a>
+                        <a href="{% url 'check_text' %}" class="btn btn-outline-light btn-lg hero-btn">
+                            <i class="bi bi-pencil-square me-2"></i>Check Text
+                        </a>
+                        <a href="{% url 'compare' %}" class="btn btn-outline-light btn-lg hero-btn">
+                            <i class="bi bi-intersect me-2"></i>Compare Files
+                        </a>
+                    </div>
+
+                    <div class="hero-stats mt-5">
+                        <div class="hero-stat">
+                            <span class="hero-stat-value">PDF</span>
+                            <span class="hero-stat-label">Upload support</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="hero-stat-value">DOCX</span>
+                            <span class="hero-stat-label">Structured analysis</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="hero-stat-value">TXT</span>
+                            <span class="hero-stat-label">Fast checking</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="feature-card feature-hover h-100 reveal-up">
+                                <i class="bi bi-search-heart icon-hover"></i>
+                                <h6>Detection</h6>
+                                <p>Sentence-level</p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="feature-card feature-hover h-100 reveal-up">
+                                <i class="bi bi-file-earmark-arrow-up icon-hover"></i>
+                                <h6>Input</h6>
+                                <p>PDF / DOCX / TXT</p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="feature-card feature-hover h-100 reveal-up">
+                                <i class="bi bi-shield-exclamation icon-hover"></i>
+                                <h6>Risk</h6>
+                                <p>Low / Med / High</p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="feature-card feature-hover h-100 reveal-up">
+                                <i class="bi bi-journal-check icon-hover"></i>
+                                <h6>Reports</h6>
+                                <p>Saved history</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mt-4">
+            <div class="col-lg-4">
+                <div class="glass-card p-4 h-100 reveal-up">
+                    <div class="mini-badge mb-3">Step 01</div>
+                    <h4 class="mb-2 section-title">Upload or paste content</h4>
+                    <p class="text-muted-2 mb-0">Choose the workflow that fits your task without changing your existing project content.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="glass-card p-4 h-100 reveal-up">
+                    <div class="mini-badge mb-3">Step 02</div>
+                    <h4 class="mb-2 section-title">Run similarity analysis</h4>
+                    <p class="text-muted-2 mb-0">Process text quickly with clean visual feedback and better hierarchy throughout the interface.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="glass-card p-4 h-100 reveal-up">
+                    <div class="mini-badge mb-3">Step 03</div>
+                    <h4 class="mb-2 section-title">Review report insights</h4>
+                    <p class="text-muted-2 mb-0">Open saved reports, inspect matches, and understand risk without the page feeling faded or flat.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

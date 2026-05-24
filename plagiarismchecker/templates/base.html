@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+
+<link
+    rel="icon"
+    type="image/png"
+    href="{% static 'pc/logo.png' %}"
+>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}PlagCheck{% endblock %}</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{% static 'pc/app.css' %}">
+
+    <style>
+        body.app-body {
+            font-family: "Inter", sans-serif;
+            background: linear-gradient(180deg, #edf2e8 0%, #e8eee3 100%);
+            color: #1f2a22;
+            min-height: 100vh;
+        }
+
+        .glass-nav {
+            background: transparent;
+            padding: 18px 0;
+        }
+
+        .brand-text {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #273229;
+            letter-spacing: -0.04em;
+        }
+
+        .nav-glow {
+            color: #2e3c31;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .nav-glow:hover {
+            color: #6b8f71;
+        }
+
+        .logo-img {
+            width: 34px;
+            height: 34px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .user-pill {
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: #ffffff;
+        }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="app-body">
+    <nav class="navbar navbar-expand-lg glass-nav sticky-top">
+        <div class="container d-flex align-items-center justify-content-between">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'landing' %}">
+                <img src="{% static 'pc/logo.png' %}" alt="logo" class="logo-img">
+                <span class="brand-text">PlagCheck</span>
+            </a>
+
+            <div class="d-none d-lg-flex gap-4 align-items-center">
+                <a class="nav-link nav-glow" href="{% url 'landing' %}">Home</a>
+                <a class="nav-link nav-glow" href="{% url 'filetest' %}">Upload</a>
+                <a class="nav-link nav-glow" href="{% url 'test' %}">Check Text</a>
+                <a class="nav-link nav-glow" href="{% url 'fileCompare' %}">Compare</a>
+                <a class="nav-link" href="{% url 'history' %}">History</a>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+                {% if user.is_authenticated %}
+                    <span class="user-pill">{{ user.username }}</span>
+                    <a href="{% url 'logout' %}" class="btn btn-outline-dark rounded-pill px-4">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-dark rounded-pill px-4">Login</a>
+                    <a href="{% url 'register' %}" class="btn btn-dark rounded-pill px-4">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

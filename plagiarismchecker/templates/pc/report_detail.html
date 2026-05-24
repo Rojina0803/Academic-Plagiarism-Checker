@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Report Detail{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <div class="glass-card p-4 mb-4">
+        <div class="row g-4 align-items-center">
+            <div class="col-lg-8">
+                <h1 class="section-title mb-2">{{ report.title }}</h1>
+                <p class="section-subtitle mb-2">{{ document.filename }} • {{ document.word_count }} words</p>
+                <p class="text-muted-2 mb-0">{{ risk_description }}</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <span class="risk-pill risk-{{ report.risk_level }}">{{ report.risk_level|title }}</span>
+                <div class="hero-score mt-2">{{ report.overall_similarity_score|default:0 }}%</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-3"><div class="metric-card"><div class="metric-label">Unique content</div><div class="metric-value">{{ report.unique_content_percentage|default:0 }}%</div></div></div>
+        <div class="col-md-3"><div class="metric-card"><div class="metric-label">Reading time</div><div class="metric-value">{{ stats.reading_time_minutes|default:1 }}m</div></div></div>
+        <div class="col-md-3"><div class="metric-card"><div class="metric-label">Sentences</div><div class="metric-value">{{ stats.sentence_count|default:0 }}</div></div></div>
+        <div class="col-md-3"><div class="metric-card"><div class="metric-label">Lexical diversity</div><div class="metric-value">{{ stats.lexical_diversity|default:'0%' }}</div></div></div>
+    </div>
+
+    <div class="glass-card overflow-hidden">
+        <div class="p-4 border-bottom border-soft d-flex justify-content-between align-items-center">
+            <div>
+                <h5 class="mb-1">Sentence matches</h5>
+                <small class="text-muted-2">Detailed source attribution for this report</small>
+            </div>
+            <a href="?flagged=true" class="btn btn-sm btn-outline-light">Flagged only</a>
+        </div>
+        {% if sentence_matches %}
+        <div class="table-responsive">
+            <table class="table table-theme align-middle mb-0">
+                <thead><tr><th>Your sentence</th><th>Matched source</th><th>Source label</th><th>Score</th><th>Status</th></tr></thead>
+                <tbody>
+                {% for match in sentence_matches %}
+                <tr>
+                    <td>{{ match.original_sentence }}</td>
+                    <td>{{ match.matched_source|default:'No close source match.' }}</td>
+                    <td>{{ match.source_label|default:'Internal Source' }}</td>
+                    <td>{{ match.similarity_score|default:0 }}%</td>
+                    <td>
+                        {% if match.is_flagged %}
+                        <span class="risk-pill risk-{{ report.risk_level }}">Flagged</span>
+                        {% else %}
+                        <span class="risk-pill risk-low">Clear</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="p-5 text-center text-muted-2">No sentence data available for this report.</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

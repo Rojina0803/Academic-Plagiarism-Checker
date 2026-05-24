@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <div class="narrow-shell">
+        <div class="glass-card p-4 p-md-5 text-center">
+            <div class="profile-avatar mx-auto mb-3"><i class="bi bi-person-circle"></i></div>
+            <h1 class="section-title mb-1">{{ user.get_full_name|default:user.username }}</h1>
+            <p class="section-subtitle mb-4">{{ user.email|default:'No email set' }}</p>
+            <div class="row g-4 text-start">
+                <div class="col-md-6"><div class="metric-card h-100"><div class="metric-label">Saved reports</div><div class="metric-value">{{ report_count|default:0 }}</div></div></div>
+                <div class="col-md-6"><div class="metric-card h-100"><div class="metric-label">Average similarity</div><div class="metric-value">{{ avg_similarity|default:0 }}%</div></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

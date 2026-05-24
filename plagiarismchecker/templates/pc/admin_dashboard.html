@@ -1,0 +1,359 @@
+{% extends "base.html" %}
+
+{% block title %}
+Admin Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- HEADER -->
+
+    <div class="glass-card p-4 p-md-5 mb-4">
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+            <div>
+
+                <h1 class="section-title mb-2">
+                    Admin Dashboard
+                </h1>
+
+                <p class="section-subtitle mb-0">
+                    Monitor users, plagiarism reports, and platform activity.
+                </p>
+
+            </div>
+
+            <div class="admin-badge">
+
+                <i class="bi bi-shield-lock-fill me-2"></i>
+
+                Administrator Access
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- STATS -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="glass-card stat-card p-4">
+
+                <div class="stat-icon bg-primary-subtle">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+
+                <div class="stat-content">
+
+                    <h6>Total Users</h6>
+
+                    <h2>{{ users }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="glass-card stat-card p-4">
+
+                <div class="stat-icon bg-success-subtle">
+                    <i class="bi bi-file-earmark-check-fill"></i>
+                </div>
+
+                <div class="stat-content">
+
+                    <h6>Total Reports</h6>
+
+                    <h2>{{ total_reports }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="glass-card stat-card p-4">
+
+                <div class="stat-icon bg-danger-subtle">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                </div>
+
+                <div class="stat-content">
+
+                    <h6>High Risk</h6>
+
+                    <h2 class="text-danger">
+                        {{ high_risk }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="glass-card stat-card p-4">
+
+                <div class="stat-icon bg-warning-subtle">
+                    <i class="bi bi-clock-history"></i>
+                </div>
+
+                <div class="stat-content">
+
+                    <h6>Recent Uploads</h6>
+
+                    <h2>{{ reports|length }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- RECENT REPORTS -->
+
+    <div class="glass-card p-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div>
+
+                <h3 class="fw-bold mb-1">
+                    Recent Plagiarism Reports
+                </h3>
+
+                <p class="text-muted mb-0">
+                    Latest uploaded and analyzed documents.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table align-middle admin-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>User</th>
+
+                        <th>Document</th>
+
+                        <th>Score</th>
+
+                        <th>Risk</th>
+
+                        <th>Date</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for report in reports %}
+
+                    <tr>
+
+                        <td>
+
+                            <div class="d-flex align-items-center gap-2">
+
+                                <div class="user-avatar">
+
+                                    {{ report.user.username|first|upper }}
+
+                                </div>
+
+                                <span class="fw-semibold">
+
+                                    {{ report.user.username }}
+
+                                </span>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            <div class="doc-name">
+
+                                {{ report.filename }}
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            <strong>
+
+                                {{ report.plagiarism_score }}%
+
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            {% if report.plagiarism_score >= 70 %}
+
+                            <span class="badge bg-danger rounded-pill px-3 py-2">
+
+                                High Risk
+
+                            </span>
+
+                            {% elif report.plagiarism_score >= 40 %}
+
+                            <span class="badge bg-warning text-dark rounded-pill px-3 py-2">
+
+                                Medium Risk
+
+                            </span>
+
+                            {% else %}
+
+                            <span class="badge bg-success rounded-pill px-3 py-2">
+
+                                Low Risk
+
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {{ report.created_at|date:"M d, Y" }}
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="5" class="text-center py-5 text-muted">
+
+                            No reports available yet.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+.admin-badge{
+    background:#edf6ee;
+    color:#1d3b2a;
+    padding:12px 18px;
+    border-radius:999px;
+    font-weight:600;
+}
+
+.stat-card{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    border-radius:28px;
+    transition:0.3s;
+}
+
+.stat-card:hover{
+    transform:translateY(-4px);
+}
+
+.stat-icon{
+    width:65px;
+    height:65px;
+    border-radius:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:26px;
+}
+
+.stat-content h6{
+    color:#6b7280;
+    margin-bottom:4px;
+}
+
+.stat-content h2{
+    margin:0;
+    font-weight:800;
+}
+
+.admin-table thead th{
+    border:none;
+    color:#6b7280;
+    font-size:14px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.admin-table tbody tr{
+    border-top:1px solid #f1f1f1;
+}
+
+.admin-table td{
+    padding:18px 12px;
+    border:none;
+}
+
+.user-avatar{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#dfeee3;
+    color:#23412f;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+}
+
+.doc-name{
+    max-width:250px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+</style>
+
+{% endblock %}

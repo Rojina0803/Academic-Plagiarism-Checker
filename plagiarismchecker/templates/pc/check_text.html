@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block title %}Check Text{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <div class="narrow-shell">
+        <div class="glass-card p-4 p-md-5">
+            <h1 class="section-title mb-2">Paste text for analysis</h1>
+            <p class="section-subtitle mb-4">Run plagiarism checks directly on pasted content.</p>
+            <form method="post" class="theme-form">
+                {% csrf_token %}
+<div class="mb-3">
+
+    <label class="form-label">
+        Text to analyze
+    </label>
+
+<textarea
+    name="text"
+    class="form-control rounded-4 p-3"
+    rows="10"
+    placeholder="Paste your text here..."
+    style="
+        font-size:18px;
+        resize:none;
+    "
+    required
+></textarea>
+
+</div>
+                <button type="submit" class="btn btn-primary"><i class="bi bi-lightning-charge me-2"></i>Analyze text</button>
+            </form>
+{% if result %}
+
+<div class="glass-alert mt-4 p-4 rounded-4">
+
+    <h3 class="fw-bold mb-3">
+
+        Overall Plagiarism Score:
+
+        <span class="text-danger">
+            {{ result.overall_score }}%
+        </span>
+
+    </h3>
+
+    {% if result.overall_score < 20 %}
+
+        <span class="badge bg-success mb-3">
+            LOW RISK
+        </span>
+
+    {% elif result.overall_score < 50 %}
+
+        <span class="badge bg-warning text-dark mb-3">
+            MEDIUM RISK
+        </span>
+
+    {% else %}
+
+        <span class="badge bg-danger mb-3">
+            HIGH RISK
+        </span>
+
+    {% endif %}
+
+    <hr>
+
+    {% for match in result.matches %}
+
+    <div class="border rounded-4 p-3 mb-4 bg-white">
+
+        <div class="d-flex justify-content-between align-items-center mb-2">
+
+            
+            {% if match.similarity < 75 %}
+
+                <span class="badge bg-warning text-dark">
+                    Moderate Match
+                </span>
+
+            {% else %}
+
+                <span class="badge bg-danger">
+                    Strong Match
+                </span>
+            
+            {% endif %}
+
+        </div>
+
+        <div class="mb-3">
+
+            <div class="fw-bold text-primary mb-1">
+                Original Text
+            </div>
+
+            <div class="p-3 bg-light rounded border">
+
+                {{ match.original }}
+
+            </div>
+
+        </div>
+
+        <div>
+
+<div class="p-3 bg-light rounded border">
+
+    {{ match.matched }}
+
+</div>
+
+<div class="mt-3">
+
+    <a
+        href="{{ match.source }}"
+        target="_blank"
+        class="btn btn-sm btn-outline-dark"
+    >
+        View Original Source
+    </a>
+
+</div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

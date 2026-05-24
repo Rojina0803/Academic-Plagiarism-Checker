@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Upload Document{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <div class="narrow-shell">
+        <div class="glass-card p-4 p-md-5">
+            <h1 class="section-title mb-2">Upload document</h1>
+            <p class="section-subtitle mb-4">Upload a PDF, DOCX, or TXT file to run plagiarism analysis.</p>
+            <form method="post" enctype="multipart/form-data" class="theme-form">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="mb-3">
+                    <label class="form-label">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}<div class="form-help">{{ field.help_text }}</div>{% endif %}
+                    {% for error in field.errors %}<div class="text-danger small mt-1">{{ error }}</div>{% endfor %}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary"><i class="bi bi-search me-2"></i>Analyze document</button>
+            </form>
+            {% if filename %}
+            <div class="glass-alert mt-4 p-3 rounded-4">Uploaded file: <strong>{{ filename }}</strong></div>
+            {% endif %}
+          {% if result %}
+
+<div class="glass-alert mt-4 p-4 rounded-4">
+
+    <div class="fw-bold mb-2">
+
+        Overall Plagiarism Score:
+
+        <span class="text-danger">
+            {{ result.overall_score }}%
+        </span>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

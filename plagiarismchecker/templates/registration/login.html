@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="auth-wrapper">
+
+        <div class="glass-card auth-card">
+
+            <div class="text-center mb-5">
+
+                <h4 class="auth-title">
+                    Welcome back
+                </h4>
+
+                <p class="auth-subtitle">
+                    Sign in to continue to your plagiarism dashboard.
+                </p>
+
+            </div>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="mb-4">
+
+                    <label class="auth-label">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        name="username"
+                        class="form-control auth-input"
+                        placeholder="Enter username"
+                        required
+                    >
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="auth-label">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        class="form-control auth-input"
+                        placeholder="Enter password"
+                        required
+                    >
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn auth-btn w-100"
+                >
+                    Login
+                </button>
+
+            </form>
+
+            <div class="text-center mt-4">
+
+                <p class="switch-auth">
+
+                    No account yet?
+
+                    <a href="{% url 'register' %}">
+                        Create one
+                    </a>
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+.auth-wrapper{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:80vh;
+}
+
+.auth-card{
+    width:100%;
+    max-width:650px;
+    padding:60px;
+    border-radius:36px;
+}
+
+.auth-title{
+    font-size:64px;
+    font-weight:800;
+    color:#1f2d24;
+    margin-bottom:10px;
+}
+
+.auth-subtitle{
+    font-size:22px;
+    color:#708070;
+}
+
+.auth-label{
+    display:block;
+    margin-bottom:12px;
+    font-size:18px;
+    font-weight:600;
+    color:#24352b;
+}
+
+.auth-input{
+    height:62px;
+    border-radius:18px;
+    border:1px solid #d7ddd7;
+    padding:0 20px;
+    font-size:18px;
+    background:white;
+}
+
+.auth-input:focus{
+    box-shadow:none;
+    border-color:#89a97f;
+}
+
+.auth-btn{
+    height:64px;
+    border-radius:20px;
+    background:#89a97f;
+    border:none;
+    color:white;
+    font-size:22px;
+    font-weight:700;
+    transition:0.3s;
+}
+
+.auth-btn:hover{
+    background:#78956f;
+    transform:translateY(-2px);
+}
+
+.switch-auth{
+    font-size:18px;
+    color:#6f7d6f;
+}
+
+.switch-auth a{
+    text-decoration:none;
+    font-weight:700;
+    color:#5f815d;
+}
+
+.switch-auth a:hover{
+    text-decoration:underline;
+}
+
+@media(max-width:768px){
+
+    .auth-card{
+        padding:35px 25px;
+    }
+
+    .auth-title{
+        font-size:42px;
+    }
+
+}
+
+</style>
+
+{% endblock %}

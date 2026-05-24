@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+{% block title %}Compare Documents{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <div class="narrow-shell wide-shell">
+        <div class="glass-card p-4 p-md-5 mb-4">
+            <h1 class="section-title mb-2">Compare two texts</h1>
+            <p class="section-subtitle mb-4">Paste two texts and compare them side by side.</p>
+            <form method="post" action="{% url 'compare_text' %}" class="theme-form">
+                {% csrf_token %}
+                <div class="row g-3">
+                    {% for field in text_form %}
+                    <div class="col-md-6">
+                        <label class="form-label">{{ field.label }}</label>
+                        {{ field }}
+                        {% for error in field.errors %}<div class="text-danger small mt-1">{{ error }}</div>{% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-primary mt-4"><i class="bi bi-intersect me-2"></i>Compare text</button>
+            </form>
+        </div>
+
+        <div class="glass-card p-4 p-md-5">
+            <h2 class="section-title mb-2">Compare two documents</h2>
+            <p class="section-subtitle mb-4">Upload two TXT or DOCX files and compare them.</p>
+            <form method="post" enctype="multipart/form-data" action="{% url 'compare_files' %}" class="theme-form">
+                {% csrf_token %}
+                <div class="row g-3">
+                    {% for field in files_form %}
+                    <div class="col-md-6">
+                        <label class="form-label">{{ field.label }}</label>
+                        {{ field }}
+                        {% for error in field.errors %}<div class="text-danger small mt-1">{{ error }}</div>{% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-outline-light mt-4"><i class="bi bi-files me-2"></i>Compare files</button>
+            </form>
+
+     {% if result %}
+
+{% if result %}
+
+<div class="container mt-5">
+
+    <!-- SCORE CARD -->
+    <div class="card shadow-lg border-0 mb-4">
+
+        <div class="card-body text-center">
+
+            <h1 class="display-5 fw-bold">
+                Plagiarism Report
+            </h1>
+
+            <hr>
+
+            <h2 class="mb-3">
+
+                Overall Similarity:
+
+                <span class="
+                    {% if result.overall_score < 20 %}
+                        text-success
+                    {% elif result.overall_score < 50 %}
+                        text-warning
+                    {% else %}
+                        text-danger
+                    {% endif %}
+                ">
+                    {{ result.overall_score }}%
+                </span>
+
+            </h2>
+
+            <!-- RISK LEVEL -->
+
+            {% if result.overall_score < 20 %}
+
+                <span class="badge bg-success fs-6">
+                    LOW RISK
+                </span>
+
+            {% elif result.overall_score < 50 %}
+
+                <span class="badge bg-warning text-dark fs-6">
+                    MEDIUM RISK
+                </span>
+
+            {% else %}
+
+                <span class="badge bg-danger fs-6">
+                    HIGH RISK
+                </span>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- MATCHED SENTENCES -->
+
+    <h3 class="mb-4">
+        Matched Sentences
+    </h3>
+
+    {% for match in result.matches %}
+
+    <div class="card shadow-sm mb-4 border-0">
+
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <h5 class="mb-0">
+
+                    Similarity:
+                    {{ match.similarity }}%
+
+                </h5>
+
+                {% if match.similarity < 75 %}
+
+                    <span class="badge bg-warning text-dark">
+                        Moderate Match
+                    </span>
+
+                {% else %}
+
+                    <span class="badge bg-danger">
+                        Strong Match
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+            <!-- ORIGINAL -->
+
+            <div class="mb-3">
+
+                <h6 class="fw-bold text-primary">
+                    Original Sentence
+                </h6>
+
+                <div class="p-3 rounded bg-light border">
+
+                    {{ match.original }}
+
+                </div>
+
+            </div>
+
+            <!-- MATCHED -->
+
+            <div>
+
+                <h6 class="fw-bold text-danger">
+                    Matched Sentence
+                </h6>
+
+                <div class="p-3 rounded bg-light border">
+
+                    {{ match.matched }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
+
+<hr>
+
+{% for match in result.matches %}
+
+<div class="border p-3 mb-3 rounded">
+
+    <h4>
+        Similarity:
+        {{ match.similarity }}%
+    </h4>
+
+    <p>
+        <strong>Original:</strong>
+    </p>
+
+    <p>
+        {{ match.original }}
+    </p>
+
+    <br>
+
+    <p>
+        <strong>Matched:</strong>
+    </p>
+
+    <p>
+        {{ match.matched }}
+    </p>
+
+</div>
+
+{% endfor %}
+
+{% endif %}
+{% if result and result.matches|length == 0 %}
+
+<div class="alert alert-success mt-4">
+
+    No significant plagiarism detected.
+
+</div>
+
+{% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
