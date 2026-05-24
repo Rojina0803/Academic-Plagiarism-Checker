@@ -3,9 +3,16 @@
 import os
 import sys
 
+<<<<<<< HEAD
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Plagiarism_Checker.settings')
+=======
+
+def main():
+    """Run administrative tasks."""
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'plagdetection.settings')
+>>>>>>> 539a3abba97ece503941f61383d924d1bd58f0c3
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -16,5 +23,9 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 539a3abba97ece503941f61383d924d1bd58f0c3
 if __name__ == '__main__':
     main()

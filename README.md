@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Plagiarsim Checker
 
 Plagiarsim checker using cosine algorithm
@@ -19,3 +20,6 @@ Plagiarsim checker using cosine algorithm
     <td><img src="https://github.com/noorkhokhar99/Plagiarsim-Checker/blob/main/Modern%20Minimalist%20Simple%20Technology%20Facebook%20Cover.png"></td>
   </tr>
  </table>
+=======
+# Academic-Plagiarism-Checker
+>>>>>>> 539a3abba97ece503941f61383d924d1bd58f0c3
